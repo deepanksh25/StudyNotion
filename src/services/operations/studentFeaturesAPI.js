@@ -48,7 +48,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         console.log("PRINTING orderResponse", orderResponse);
         //options
         const options = {
-            key: process.env.RAZORPAY_KEY,
+            key: "rzp_test_gMVOBSqcKg7ErH",
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id:orderResponse.data.data.id,
@@ -60,13 +60,13 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                 email:userDetails.email
             },
             handler: function(response) {
-                //send successful wala mail
+                //send successful mail
                 sendPaymentSuccessEmail(response, orderResponse.data.data.amount,token );
                 //verifyPayment
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }
         }
-        //miss hogya tha 
+        // console.log("PRINTING OPTIONS",options);
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
         paymentObject.on("payment.failed", function(response) {
